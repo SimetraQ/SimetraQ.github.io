@@ -20,10 +20,24 @@
 
   <style>
     .cg-wrap piece.noisulli {
-      background-image: url('noisulli.png') !important;
-      background-size: contain !important;
-      background-repeat: no-repeat !important;
-      background-position: center !important;
+      background-image: url('noisulli.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .cg-wrap piece.wally-west {
+      background-image: url('wally-west.gif');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .cg-wrap piece.chicken-jokey {
+      background-image: url('chicken-jokey.webp');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
     .cg-wrap piece.pawn.red {
@@ -375,11 +389,26 @@
     //   cg.set({ coordinates: e.target.checked });
     // });
 
+    
+    // Define customs in one spot
+    const customs = [
+      { role: 'noisulli', color: 'white' },
+      { role: 'wally-west', color: 'white' },
+      { role: 'chicken-jokey', color: 'white' }
+    ];
+
+    // Make sure there's a single container in HTML
+    // <div class="palette-row" id="palette-custom"></div>
     const customRow = document.getElementById('palette-custom');
-    const noisulliSwatch = createSwatch('white', 'noisulli');
-    customRow.append(noisulliSwatch);
-    noisulliSwatch.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('text/plain', noisulliSwatch.dataset.piece);
+
+    // Loop once to build & wire each one
+    customs.forEach(({role, color}) => {
+      const sw = createSwatch(color, role);
+      // sw.dataset.piece is already set by createSwatch
+      sw.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', sw.dataset.piece);
+      });
+      customRow.append(sw);
     });
   </script>
 </body>
