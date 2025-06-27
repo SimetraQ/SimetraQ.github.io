@@ -2,17 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Local Chessground Demo</title>
+  <title>Chessground</title>
 
-  <!-- Local base + theme CSS -->
   <link
-    rel="stylesheet"
-    href="./node_modules/@lichess-org/chessground/assets/chessground.base.css"
+    rel="preload"
+    href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.base.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
   >
   <link
-    rel="stylesheet"
-    href="./node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
+    rel="preload"
+    href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
   >
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.base.css"
+    >
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
+    >
+  </noscript>
 
   <style>
     html, body { height: 100%; margin: 0; }
@@ -25,16 +38,16 @@
     #board {
       width: 400px;
       height: 400px;
-      visibility: hidden; /* hide until JS runs */
+      visibility: hidden;
     }
   </style>
 </head>
 <body>
   <div id="board"></div>
 
-  <!-- Use your local dist build as an ES module -->
   <script type="module">
-    import { Chessground } from './node_modules/@lichess-org/chessground/dist/chessground.js';
+    import { Chessground }
+      from 'https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/dist/chessground.js';
 
     window.addEventListener('load', () => {
       const board = document.getElementById('board');
