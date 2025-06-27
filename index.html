@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Local Chessboard.js</title>
+  <meta charset="UTF-8">
+  <title>Chessground on GitHub Pages</title>
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    #board { width: 400px; }
-  </style>
-
-  <!-- self-hosted Chessboard.js CSS -->
+  <!-- 1. Base + Theme CSS from unpkg -->
   <link
     rel="stylesheet"
-    href="libs/chessboardjs/dist/css/chessboard-1.0.0.css"
-  />
+    href="https://unpkg.com/@lichess-org/chessground/assets/chessground.base.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@lichess-org/chessground/assets/chessground.cburnett.css"
+  >
+
+  <!-- 2. Center & size -->
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+    }
+    #board { width: 400px; height: 400px; }
+  </style>
 </head>
 <body>
-
   <div id="board"></div>
-  <p>hello, does this work?</p>
 
-  <!-- self-hosted jQuery -->
-  <script src="libs/jquery-3.6.0.min.js"></script>
-  <!-- self-hosted Chessboard.js JS -->
-  <script src="libs/chessboardjs/dist/js/chessboard-1.0.0.js"></script>
+  <!-- 3. ES-module import (unpkg serves with CORS headers) -->
+  <script type="module">
+    import { Chessground } from 'https://unpkg.com/@lichess-org/chessground/dist/chessground.js';
 
-  <script>
-    // initialize the board in the “start” position
-    const board = Chessboard('board', {
-      position: 'start'
+    // 4. Wait for everything (CSS, fonts, etc.) to be ready
+    window.addEventListener('load', () => {
+      Chessground(document.getElementById('board'), {
+        orientation: 'white',
+        draggable: { enabled: true }
+      });
     });
   </script>
 </body>

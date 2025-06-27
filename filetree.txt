@@ -4,269 +4,106 @@ C:.
 |   filetree.txt
 |   index.html
 |   LICENSE
+|   package-lock.json
+|   package.json
 |   README.md
 |   
-\---libs
-    |   jquery-3.6.0.min.js
+\---node_modules
+    |   .package-lock.json
     |   
-    \---chessboardjs
-        |   .editorconfig
-        |   .gitignore
-        |   .npmignore
-        |   CHANGELOG.md
-        |   LICENSE.md
-        |   package.json
-        |   README.md
-        |   yarn.lock
-        |   
-        +---data
-        |       docs.json
-        |       releases.json
-        |       
-        +---dist
-        |   |   CHANGELOG.md
-        |   |   LICENSE.md
-        |   |   package.json
-        |   |   README.md
-        |   |   
-        |   +---css
-        |   |       chessboard-1.0.0.css
-        |   |       chessboard-1.0.0.min.css
-        |   |       
-        |   +---img
-        |   |   \---chesspieces
-        |   |       \---wikipedia
-        |   |               bB.png
-        |   |               bK.png
-        |   |               bN.png
-        |   |               bP.png
-        |   |               bQ.png
-        |   |               bR.png
-        |   |               wB.png
-        |   |               wK.png
-        |   |               wN.png
-        |   |               wP.png
-        |   |               wQ.png
-        |   |               wR.png
-        |   |               
-        |   \---js
-        |           chessboard-1.0.0.js
-        |           chessboard-1.0.0.min.js
-        |           
-        +---examples
-        |       1000-empty-board.example
-        |       1001-start-position.example
-        |       1002-fen.example
-        |       1003-position-object.example
-        |       1004-multiple-boards.example
-        |       2000-config-position.example
-        |       2001-config-orientation.example
-        |       2002-config-notation.example
-        |       2003-draggable-snapback.example
-        |       2004-piece-theme-string.example
-        |       2005-animation-speed.example
-        |       2006-spare-pieces.example
-        |       2030-piece-theme-function.example
-        |       2044-position-fen.example
-        |       2063-position-object.example
-        |       2082-draggable-trash.example
-        |       3000-get-position.example
-        |       3001-set-position.example
-        |       3002-set-position-instant.example
-        |       3003-clear.example
-        |       3004-move-pieces.example
-        |       3005-orientation.example
-        |       3006-destroy.example
-        |       3007-resize.example
-        |       4000-onchange.example
-        |       4001-ondragstart.example
-        |       4002-ondragstart-prevent-drag.example
-        |       4003-ondragmove.example
-        |       4004-ondrop.example
-        |       4005-ondrop-snapback.example
-        |       4006-ondrop-trash.example
-        |       4011-onsnapbackend.example
-        |       4012-onmoveend.example
-        |       5000-legal-moves.example
-        |       5001-play-random-computer.example
-        |       5002-random-vs-random.example
-        |       5003-highlight-legal-moves.example
-        |       5004-piece-highlight1.example
-        |       5005-piece-highlight2.example
-        |       
-        +---lib
-        |       chessboard.css
-        |       chessboard.js
-        |       
-        +---scripts
-        |       build.js
-        |       rename.js
-        |       website.js
-        |       
-        +---templates
-        |       docs.mustache
-        |       download.mustache
-        |       examples.mustache
-        |       homepage.mustache
-        |       license.mustache
-        |       single-example.mustache
-        |       _footer.mustache
-        |       _head.mustache
-        |       _header.mustache
-        |       
-        \---website
-            |   .htaccess
-            |   192.png
-            |   512.png
-            |   apple-touch-icon.png
-            |   favicon.ico
-            |   icon.svg
-            |   manifest.webmanifest
+    \---@lichess-org
+        \---chessground
+            |   LICENSE
+            |   package.json
+            |   README.md
             |   
-            +---css
-            |       website2.css
+            +---assets
+            |       chessground.base.css
+            |       chessground.brown.css
+            |       chessground.cburnett.css
             |       
-            +---img
-            |   |   board-background.png
-            |   |   favicon.ico
-            |   |   link.svg
-            |   |   satinweave.png
-            |   |   
-            |   \---chesspieces
-            |       +---alpha
-            |       |       bB.png
-            |       |       bK.png
-            |       |       bN.png
-            |       |       bP.png
-            |       |       bQ.png
-            |       |       bR.png
-            |       |       wB.png
-            |       |       wK.png
-            |       |       wN.png
-            |       |       wP.png
-            |       |       wQ.png
-            |       |       wR.png
-            |       |       
-            |       +---uscf
-            |       |       bB.png
-            |       |       bK.png
-            |       |       bN.png
-            |       |       bP.png
-            |       |       bQ.png
-            |       |       bR.png
-            |       |       wB.png
-            |       |       wK.png
-            |       |       wN.png
-            |       |       wP.png
-            |       |       wQ.png
-            |       |       wR.png
-            |       |       
-            |       \---wikipedia
-            |               bB.png
-            |               bK.png
-            |               bK.svg
-            |               bN.png
-            |               bP.png
-            |               bQ.png
-            |               bR.png
-            |               wB.png
-            |               wK.png
-            |               wN.png
-            |               wP.png
-            |               wQ.png
-            |               wR.png
-            |               
-            +---js
-            |       chess-0.10.2.min.js
-            |       examples.js
-            |       jquery-3.4.1.min.js
-            |       jquery.color-2.1.2.min.js
-            |       prettify.min.js
+            +---dist
+            |       anim.d.ts
+            |       anim.js
+            |       anim.js.map
+            |       api.d.ts
+            |       api.js
+            |       api.js.map
+            |       autoPieces.d.ts
+            |       autoPieces.js
+            |       autoPieces.js.map
+            |       board.d.ts
+            |       board.js
+            |       board.js.map
+            |       chessground.d.ts
+            |       chessground.js
+            |       chessground.js.map
+            |       chessground.min.js
+            |       config.d.ts
+            |       config.js
+            |       config.js.map
+            |       drag.d.ts
+            |       drag.js
+            |       drag.js.map
+            |       draw.d.ts
+            |       draw.js
+            |       draw.js.map
+            |       drop.d.ts
+            |       drop.js
+            |       drop.js.map
+            |       events.d.ts
+            |       events.js
+            |       events.js.map
+            |       explosion.d.ts
+            |       explosion.js
+            |       explosion.js.map
+            |       fen.d.ts
+            |       fen.js
+            |       fen.js.map
+            |       premove.d.ts
+            |       premove.js
+            |       premove.js.map
+            |       render.d.ts
+            |       render.js
+            |       render.js.map
+            |       state.d.ts
+            |       state.js
+            |       state.js.map
+            |       svg.d.ts
+            |       svg.js
+            |       svg.js.map
+            |       sync.d.ts
+            |       sync.js
+            |       sync.js.map
+            |       types.d.ts
+            |       types.js
+            |       types.js.map
+            |       util.d.ts
+            |       util.js
+            |       util.js.map
+            |       wrap.d.ts
+            |       wrap.js
+            |       wrap.js.map
             |       
-            \---releases
-                |   chessboardjs-1.0.0.zip
-                |   
-                +---0.1.0
-                |   |   chessboard-0.1.0.zip
-                |   |   LICENSE.txt
-                |   |   
-                |   +---css
-                |   |       chessboard-0.1.0.css
-                |   |       chessboard-0.1.0.min.css
-                |   |       
-                |   +---img
-                |   |   \---chesspieces
-                |   |       \---wikipedia
-                |   |               bB.png
-                |   |               bK.png
-                |   |               bN.png
-                |   |               bP.png
-                |   |               bQ.png
-                |   |               bR.png
-                |   |               wB.png
-                |   |               wK.png
-                |   |               wN.png
-                |   |               wP.png
-                |   |               wQ.png
-                |   |               wR.png
-                |   |               
-                |   \---js
-                |           chessboard-0.1.0.js
-                |           chessboard-0.1.0.min.js
-                |           
-                +---0.2.0
-                |   |   chessboardjs-0.2.0.zip
-                |   |   LICENSE.txt
-                |   |   
-                |   +---css
-                |   |       chessboard-0.2.0.css
-                |   |       chessboard-0.2.0.min.css
-                |   |       
-                |   +---img
-                |   |   \---chesspieces
-                |   |       \---wikipedia
-                |   |               bB.png
-                |   |               bK.png
-                |   |               bN.png
-                |   |               bP.png
-                |   |               bQ.png
-                |   |               bR.png
-                |   |               wB.png
-                |   |               wK.png
-                |   |               wN.png
-                |   |               wP.png
-                |   |               wQ.png
-                |   |               wR.png
-                |   |               
-                |   \---js
-                |           chessboard-0.2.0.js
-                |           chessboard-0.2.0.min.js
-                |           
-                \---0.3.0
-                    |   chessboardjs-0.3.0.zip
-                    |   LICENSE.txt
-                    |   
-                    +---css
-                    |       chessboard-0.3.0.css
-                    |       chessboard-0.3.0.min.css
-                    |       
-                    +---img
-                    |   \---chesspieces
-                    |       \---wikipedia
-                    |               bB.png
-                    |               bK.png
-                    |               bN.png
-                    |               bP.png
-                    |               bQ.png
-                    |               bR.png
-                    |               wB.png
-                    |               wK.png
-                    |               wN.png
-                    |               wP.png
-                    |               wQ.png
-                    |               wR.png
-                    |               
-                    \---js
-                            chessboard-0.3.0.js
-                            chessboard-0.3.0.min.js
-                            
+            \---src
+                    anim.ts
+                    api.ts
+                    autoPieces.ts
+                    board.ts
+                    chessground.ts
+                    config.ts
+                    drag.ts
+                    draw.ts
+                    drop.ts
+                    events.ts
+                    explosion.ts
+                    fen.ts
+                    premove.ts
+                    render.ts
+                    state.ts
+                    svg.ts
+                    sync.ts
+                    types.ts
+                    util.ts
+                    wrap.ts
+                    
