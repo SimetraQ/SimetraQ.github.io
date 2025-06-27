@@ -18,7 +18,6 @@
     href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.cburnett.css"
   />
 
-  <!--  Red‐piece overrides: paste your Base64 SVGs below  -->
   <style>
     .cg-wrap piece.pawn.red {
       background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PHBhdGggZD0iTTIyLjUgOWMtMi4yMSAwLTQgMS43OS00IDQgMCAuODkuMjkgMS43MS43OCAyLjM4QzE3LjMzIDE2LjUgMTYgMTguNTkgMTYgMjFjMCAyLjAzLjk0IDMuODQgMi40MSA1LjAzLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3IDEuNDctMS4xOSAyLjQxLTMgMi40MS01LjAzIDAtMi40MS0xLjMzLTQuNS0zLjI4LTUuNjIuNDktLjY3Ljc4LTEuNDkuNzgtMi4zOCAwLTIuMjEtMS43OS00LTQtNHoiIGZpbGw9IiNGQTAwM0YiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==');
@@ -103,9 +102,11 @@
       align-items: center;
       gap: 8px;
       font-family: sans-serif;
+      flex-wrap: wrap;
     }
     #size-slider {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 0;
     }
 
     /* Palette rows */
@@ -152,19 +153,16 @@
       color: #fff;
     }
 
-    /* Make sure all containers also adjust */
     body.dark-bg #sidebar,
     body.dark-bg #main {
       background: #2f2828;
       color: #fff;
     }
 
-    /* If you want the board container to also get a dark checker-pattern: */
     body.dark-bg #board {
       background-color: #333;
     }
 
-    /* And any text labels etc */
     body.dark-bg label,
     body.dark-bg span,
     body.dark-bg button {
@@ -227,7 +225,7 @@
       coordinates: true
     });
 
-    // 2) Build the off-board palette (white, black, red)
+    // 2) Build the off-board palette (white, black, red, yellow)
     const colors = ['white','black','red','yellow'];
     const roles = ['pawn','knight','bishop','rook','queen','king'];
     function createSwatch(color, role) {
