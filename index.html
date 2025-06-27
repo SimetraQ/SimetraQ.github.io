@@ -2,60 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chessground</title>
+  <title>Chessground with Board Colours</title>
 
+  <!-- 1) Base layout -->
   <link
-    rel="preload"
-    href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.base.css"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.base.css"
   >
+  <!-- 2) Board-colour theme -->
   <link
-    rel="preload"
-    href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.brown.css"
   >
-  <noscript>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.base.css"
-    >
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
-    >
-  </noscript>
+  <!-- 3) Piece-SVG theme -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.cburnett.css"
+  >
 
+  <!-- center & size -->
   <style>
-    html, body { height: 100%; margin: 0; }
+    html, body { height:100%; margin:0 }
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f0f0f0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#f0f0f0;
     }
-    #board {
-      width: 400px;
-      height: 400px;
-      visibility: hidden;
-    }
+    #board { width:400px; height:400px }
   </style>
 </head>
 <body>
   <div id="board"></div>
 
+  <!-- 4) ESM import from jsDelivr -->
   <script type="module">
     import { Chessground }
-      from 'https://cdn.jsdelivr.net/gh/SimetraQ/SimetraQ.github.io@main/node_modules/@lichess-org/chessground/dist/chessground.js';
+      from 'https://cdn.jsdelivr.net/npm/@lichess-org/chessground/dist/chessground.js';
 
-    window.addEventListener('load', () => {
-      const board = document.getElementById('board');
-      Chessground(board, {
+    window.addEventListener('DOMContentLoaded', () => {
+      Chessground(document.getElementById('board'), {
         orientation: 'white',
-        draggable: { enabled: true }
+        draggable: { enabled: true },
+        coordinates: true
       });
-      board.style.visibility = 'visible';
     });
   </script>
 </body>

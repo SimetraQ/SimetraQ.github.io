@@ -13,9 +13,11 @@ C:.
     |   
     \---@lichess-org
         \---chessground
+            |   assets.zip
             |   LICENSE
             |   package.json
             |   README.md
+            |   src.zip
             |   
             +---assets
             |       chessground.base.css
