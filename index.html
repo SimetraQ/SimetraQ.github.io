@@ -1,51 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Chessground with Board Colours</title>
+  <meta charset="UTF-8" />
+  <title>Chessground – Drag-on Palette + Drag-off Removal</title>
 
-  <!-- 1) Base layout -->
+  <!-- Chessground CSS -->
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.base.css"
-  >
-  <!-- 2) Board-colour theme -->
+  />
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.brown.css"
-  >
-  <!-- 3) Piece-SVG theme -->
+  />
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.cburnett.css"
-  >
+  />
 
-  <!-- center & size -->
   <style>
     html, body { height:100%; margin:0 }
     body {
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:center;
       background:#f0f0f0;
+      padding:16px;
+      box-sizing:border-box;
     }
-    #board { width:400px; height:400px }
+
+    /* Palette rows */
+    #palette {
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:16px;
+    }
+    .palette-row {
+      display:flex;
+      gap:8px;
+    }
+    .palette-item {
+      width:40px;
+      height:40px;
+      position:relative;
+      cursor:grab;
+    }
+    /* Let Chessground’s CSS paint these <piece> tags */
+    .palette-item piece {
+      width:100% !important;
+      height:100% !important;
+      background-size:contain !important;
+      background-repeat:no-repeat !important;
+      background-position:center !important;
+    }
+
+    /* Board size */
+    #board {
+      width:400px;
+      height:400px;
+    }
   </style>
 </head>
 <body>
+  <!-- Palette: white on top, black below -->
+  <div id="palette">
+    <div class="palette-row" id="palette-white"></div>
+    <div class="palette-row" id="palette-black"></div>
+  </div>
+
+  <!-- The chessboard -->
   <div id="board"></div>
 
-  <!-- 4) ESM import from jsDelivr -->
   <script type="module">
-    import { Chessground }
-      from 'https://cdn.jsdelivr.net/npm/@lichess-org/chessground/dist/chessground.js';
+    import { Chessground } from 'https://cdn.jsdelivr.net/npm/@lichess-org/chessground/dist/chessground.js';
 
-    window.addEventListener('DOMContentLoaded', () => {
-      Chessground(document.getElementById('board'), {
-        orientation: 'white',
-        draggable: { enabled: true },
-        coordinates: true
+    // 1) Initialize the board, enable drag-off removal:
+    const cg = Chessground(document.getElementById('board'), {
+      orientation: 'white',
+      draggable: {
+        enabled: true,
+        distance: 2,
+        showGhost: true,
+        deleteOnDropOff: true
+      },
+      coordinates: true
+    });
+
+    // 2) Build the off-board palette
+    const roles = ['pawn','knight','bishop','rook','queen','king'];
+    function createSwatch(color, role) {
+      const sw = document.createElement('div');
+      sw.className = 'palette-item cg-wrap';
+      sw.draggable = true;
+      sw.dataset.piece = `${color} ${role}`;
+      // the <piece> tag is styled by Chessground’s CSS
+      const pc = document.createElement('piece');
+      pc.className = `${role} ${color}`;
+      sw.append(pc);
+      return sw;
+    }
+    const whiteRow = document.getElementById('palette-white');
+    const blackRow = document.getElementById('palette-black');
+    roles.forEach(r => whiteRow.append(createSwatch('white', r)));
+    roles.forEach(r => blackRow.append(createSwatch('black', r)));
+
+    // 3) Handle dragstart on palette
+    document.querySelectorAll('.palette-item').forEach(el => {
+      el.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', el.dataset.piece);
       });
+    });
+
+    // 4) Let board accept drops
+    const boardEl = document.getElementById('board');
+    boardEl.addEventListener('dragover', e => {
+      e.preventDefault(); // allow drop
+    });
+    boardEl.addEventListener('drop', e => {
+      e.preventDefault();
+
+      // which piece?
+      const data = e.dataTransfer.getData('text/plain');
+      if (!data) return;
+      const [color, role] = data.split(' ');
+
+      // find the square under the mouse
+      const key = cg.getKeyAtDomPos([e.clientX, e.clientY]);
+      if (!key) return;
+
+      // place the piece!
+      cg.newPiece({ color, role }, key);
     });
   </script>
 </body>
