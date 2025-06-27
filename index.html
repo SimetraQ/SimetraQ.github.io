@@ -269,6 +269,7 @@
     
     const blackCreate = document.getElementById('create-black');
     const whiteCreate = document.getElementById('create-white');
+    const createRows = [blackCreate, whiteCreate];
 
     roles.forEach(role => {
       blackCreate.append(createSwatch('black', role));
@@ -308,6 +309,10 @@
       const px = ORIG * scale;
       boardEl.style.width  = px + 'px';
       boardEl.style.height = px + 'px';
+      createRows.forEach(el => {
+        el.style.transform = `scale(${scale})`;
+        el.style.transformOrigin = 'center';
+      });
       sizeValue.textContent = Math.round(scale * 100) + '%';
       window.dispatchEvent(new Event('resize'));
       cg.redrawAll();
