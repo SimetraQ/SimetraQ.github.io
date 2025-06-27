@@ -19,6 +19,13 @@
   />
 
   <style>
+    .cg-wrap piece.noisulli {
+      background-image: url('noisulli.png') !important;
+      background-size: contain !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
+    }
+
     .cg-wrap piece.pawn.red {
       background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NSI+PHBhdGggZD0iTTIyLjUgOWMtMi4yMSAwLTQgMS43OS00IDQgMCAuODkuMjkgMS43MS43OCAyLjM4QzE3LjMzIDE2LjUgMTYgMTguNTkgMTYgMjFjMCAyLjAzLjk0IDMuODQgMi40MSA1LjAzLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3IDEuNDctMS4xOSAyLjQxLTMgMi40MS01LjAzIDAtMi40MS0xLjMzLTQuNS0zLjI4LTUuNjIuNDktLjY3Ljc4LTEuNDkuNzgtMi4zOCAwLTIuMjEtMS43OS00LTQtNHoiIGZpbGw9IiNGQTAwM0YiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==');
     }
@@ -230,6 +237,10 @@
       <div class="palette-row" id="palette-red"></div>
       <div class="palette-row" id="palette-yellow"></div>
     </div>
+    <div id="custom-section" style="margin-top:16px;">
+      <p>Special pieces</p>
+      <div class="palette-row" id="palette-custom"></div>
+    </div>
   </div>
 
 
@@ -257,6 +268,7 @@
     // 2) Build the off-board palette (white, black, red, yellow)
     const colors = ['white','black','red','yellow'];
     const roles = ['pawn','knight','bishop','rook','queen','king'];
+    // roles.push('noisulli');
     function createSwatch(color, role) {
       const sw = document.createElement('div');
       sw.className = 'palette-item cg-wrap';
@@ -362,6 +374,13 @@
     // coordsToggle.addEventListener('change', e => {
     //   cg.set({ coordinates: e.target.checked });
     // });
+
+    const customRow = document.getElementById('palette-custom');
+    const noisulliSwatch = createSwatch('white', 'noisulli');
+    customRow.append(noisulliSwatch);
+    noisulliSwatch.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', noisulliSwatch.dataset.piece);
+    });
   </script>
 </body>
 </html>
