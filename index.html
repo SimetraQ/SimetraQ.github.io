@@ -218,6 +218,10 @@
         <input type="checkbox" id="create-toggle" checked>
         Enable off-board creation
       </label>
+      <label style="display:flex;align-items:center;gap:4px;">
+        <input type="checkbox" id="coords-toggle" checked>
+        Show coordinates
+      </label>
     </div>
 
     <div id="palette">
@@ -272,17 +276,25 @@
     const whiteCreate = document.getElementById('create-white');
     const createRows = [blackCreate, whiteCreate];
     const createToggle = document.getElementById('create-toggle');
+    const coordsToggle = document.getElementById('coords-toggle');
 
     // on page-load ensure display matches checkbox:
     createRows.forEach(el => {
       el.style.display = createToggle.checked ? 'flex' : 'none';
     });
+    cg.set({ coordinates: coordsToggle.checked });
+    cg.redrawAll();
 
     // whenever user flips the switch show/hide the rows
     createToggle.addEventListener('change', e => {
       createRows.forEach(el => {
         el.style.display = e.target.checked ? 'flex' : 'none';
       });
+    });
+
+    coordsToggle.addEventListener('change', e => {
+      cg.set({ coordinates: e.target.checked });
+      cg.redrawAll();
     });
 
     roles.forEach(role => {
