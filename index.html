@@ -214,10 +214,10 @@
           width="24" height="24"
         >
       </button>
-      <!-- <label style="display:flex; align-items:center; gap:4px;">
-        <input type="checkbox" id="coords-toggle" checked>
-          Show coordinates
-      </input> -->
+      <label style="display:flex;align-items:center;gap:4px;">
+        <input type="checkbox" id="create-toggle" checked>
+        Enable off-board creation
+      </label>
     </div>
 
     <div id="palette">
@@ -271,6 +271,19 @@
     const blackCreate = document.getElementById('create-black');
     const whiteCreate = document.getElementById('create-white');
     const createRows = [blackCreate, whiteCreate];
+    const createToggle = document.getElementById('create-toggle');
+
+    // on page-load ensure display matches checkbox:
+    createRows.forEach(el => {
+      el.style.display = createToggle.checked ? 'flex' : 'none';
+    });
+
+    // whenever user flips the switch show/hide the rows
+    createToggle.addEventListener('change', e => {
+      createRows.forEach(el => {
+        el.style.display = e.target.checked ? 'flex' : 'none';
+      });
+    });
 
     roles.forEach(role => {
       blackCreate.append(createSwatch('black', role));
