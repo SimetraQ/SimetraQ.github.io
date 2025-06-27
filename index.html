@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chessground – Drag-on Palette + Drag-off Removal</title>
+  <title>Chessground – Layout with Sidebar</title>
 
   <!-- Chessground CSS -->
   <link
@@ -19,58 +19,104 @@
   />
 
   <style>
-    html, body { height:100%; margin:0 }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
     body {
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      background:#f0f0f0;
-      padding:16px;
-      box-sizing:border-box;
+      display: flex;
+      flex-direction: row; /* sidebar + main */
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    /* Sidebar: controls + palette */
+    #sidebar {
+      width: 30%;
+      min-width: 200px;
+      box-sizing: border-box;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      background: #ffffff;
+      border-right: 1px solid #ccc;
+      overflow-y: auto;
+    }
+
+    /* Controls (slider) */
+    #controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: sans-serif;
+    }
+    #size-slider {
+      flex: 1;
     }
 
     /* Palette rows */
     #palette {
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      margin-bottom:16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
     .palette-row {
-      display:flex;
-      gap:8px;
+      display: flex;
+      gap: 8px;
     }
     .palette-item {
-      width:40px;
-      height:40px;
-      position:relative;
-      cursor:grab;
+      width: 40px;
+      height: 40px;
+      cursor: grab;
     }
-    /* Let Chessground’s CSS paint these <piece> tags */
     .palette-item piece {
-      width:100% !important;
-      height:100% !important;
-      background-size:contain !important;
-      background-repeat:no-repeat !important;
-      background-position:center !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-size: contain !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
     }
 
-    /* Board size */
+    /* Main area: centered board */
+    #main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Board container – scales around center */
     #board {
-      width:400px;
-      height:400px;
+      width: 400px;
+      height: 400px;
     }
   </style>
 </head>
 <body>
-  <!-- Palette: white on top, black below -->
-  <div id="palette">
-    <div class="palette-row" id="palette-white"></div>
-    <div class="palette-row" id="palette-black"></div>
+  <div id="sidebar">
+    <div id="controls">
+      <label for="size-slider">Zoom:</label>
+      <input
+        type="range"
+        id="size-slider"
+        min="0.5"
+        max="3"
+        step="0.05"
+        value="1"
+      >
+<span id="size-value">100%</span>
+    </div>
+
+    <div id="palette">
+      <div class="palette-row" id="palette-white"></div>
+      <div class="palette-row" id="palette-black"></div>
+    </div>
   </div>
 
-  <!-- The chessboard -->
-  <div id="board"></div>
+  <div id="main">
+    <div id="board"></div>
+  </div>
 
   <script type="module">
     import { Chessground } from 'https://cdn.jsdelivr.net/npm/@lichess-org/chessground/dist/chessground.js';
@@ -94,7 +140,6 @@
       sw.className = 'palette-item cg-wrap';
       sw.draggable = true;
       sw.dataset.piece = `${color} ${role}`;
-      // the <piece> tag is styled by Chessground’s CSS
       const pc = document.createElement('piece');
       pc.className = `${role} ${color}`;
       sw.append(pc);
@@ -114,24 +159,38 @@
 
     // 4) Let board accept drops
     const boardEl = document.getElementById('board');
-    boardEl.addEventListener('dragover', e => {
-      e.preventDefault(); // allow drop
-    });
+    boardEl.addEventListener('dragover', e => e.preventDefault());
     boardEl.addEventListener('drop', e => {
       e.preventDefault();
-
-      // which piece?
       const data = e.dataTransfer.getData('text/plain');
       if (!data) return;
       const [color, role] = data.split(' ');
-
-      // find the square under the mouse
       const key = cg.getKeyAtDomPos([e.clientX, e.clientY]);
       if (!key) return;
-
-      // place the piece!
       cg.newPiece({ color, role }, key);
     });
+
+    // 5) Slider logic: now a scale slider (50%–200%)
+    const ORIG = 400; // original board size
+    const slider = document.getElementById('size-slider');
+    const sizeValue = document.getElementById('size-value');
+
+    slider.addEventListener('input', () => {
+      const scale = parseFloat(slider.value);
+      const px = ORIG * scale;
+
+      // resize the board element itself
+      boardEl.style.width  = px + 'px';
+      boardEl.style.height = px + 'px';
+
+      // update label in percent
+      sizeValue.textContent = Math.round(scale * 100) + '%';
+
+      // notify Chessground to recompute bounds & redraw
+      window.dispatchEvent(new Event('resize'));
+      cg.redrawAll();
+    });
   </script>
+
 </body>
 </html>
