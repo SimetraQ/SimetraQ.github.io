@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chessground on GitHub Pages</title>
+  <title>Local Chessground Demo</title>
 
-  <!-- 1. Base + Theme CSS from unpkg -->
+  <!-- Local base + theme CSS -->
   <link
     rel="stylesheet"
-    href="https://unpkg.com/@lichess-org/chessground/assets/chessground.base.css"
+    href="./node_modules/@lichess-org/chessground/assets/chessground.base.css"
   >
   <link
     rel="stylesheet"
-    href="https://unpkg.com/@lichess-org/chessground/assets/chessground.cburnett.css"
+    href="./node_modules/@lichess-org/chessground/assets/chessground.cburnett.css"
   >
 
-  <!-- 2. Center & size -->
   <style>
     html, body { height: 100%; margin: 0; }
     body {
@@ -23,22 +22,27 @@
       justify-content: center;
       background: #f0f0f0;
     }
-    #board { width: 400px; height: 400px; }
+    #board {
+      width: 400px;
+      height: 400px;
+      visibility: hidden; /* hide until JS runs */
+    }
   </style>
 </head>
 <body>
   <div id="board"></div>
 
-  <!-- 3. ES-module import (unpkg serves with CORS headers) -->
+  <!-- Use your local dist build as an ES module -->
   <script type="module">
-    import { Chessground } from 'https://unpkg.com/@lichess-org/chessground/dist/chessground.js';
+    import { Chessground } from './node_modules/@lichess-org/chessground/dist/chessground.js';
 
-    // 4. Wait for everything (CSS, fonts, etc.) to be ready
     window.addEventListener('load', () => {
-      Chessground(document.getElementById('board'), {
+      const board = document.getElementById('board');
+      Chessground(board, {
         orientation: 'white',
         draggable: { enabled: true }
       });
+      board.style.visibility = 'visible';
     });
   </script>
 </body>
