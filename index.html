@@ -17,6 +17,11 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@lichess-org/chessground/assets/chessground.cburnett.css"
   />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
 
   <style>
     .cg-wrap piece.noisulli {
@@ -241,9 +246,17 @@
       padding: 4px;
       background: #888;
     }
-    #create-black { margin-bottom: 10px; }
-    #create-white { margin-top:    10px; }
+    #create-black {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    #create-white {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <div id="sidebar">
@@ -270,6 +283,16 @@
           width="24" height="24"
         >
       </button>
+           <div class="form-check form-switch ms-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="orientation-toggle"
+        >
+        <label class="form-check-label" for="orientation-toggle">
+          Play as Black
+        </label>
+      </div>
       <label style="display:flex;align-items:center;gap:4px;">
         <input type="checkbox" id="create-toggle" checked>
         Enable off-board creation
@@ -312,6 +335,32 @@
         deleteOnDropOff: true
       },
       coordinates: true
+    });
+
+    const boardEl = document.getElementById('board');
+    const main = document.getElementById('main');
+    const createBlack = document.getElementById('create-black');
+    const createWhite = document.getElementById('create-white');
+    const orientToggle = document.getElementById('orientation-toggle');
+    // whenever it flips, update orientation
+    orientToggle.addEventListener('change', e => {
+      const isBlack = e.target.checked;
+
+      cg.set({ orientation: e.target.checked ? 'black' : 'white' });
+      cg.redrawAll();
+
+      main.innerHTML = '';           // clear it out
+      if (isBlack) {
+        // for "black" mode: show white-creators on top, board, then black-creators
+        main.appendChild(createWhite);
+        main.appendChild(boardEl);
+        main.appendChild(createBlack);
+      } else {
+        // default (white): black-creators above, board, white-creators below
+        main.appendChild(createBlack);
+        main.appendChild(boardEl);
+        main.appendChild(createWhite);
+      }
     });
 
     // 2) Build the off-board palette (white, black, red, yellow)
@@ -375,7 +424,6 @@
     });
 
     // 4) Let board accept drops
-    const boardEl = document.getElementById('board');
     boardEl.addEventListener('dragover', e => e.preventDefault());
     boardEl.addEventListener('drop', e => {
       e.preventDefault();
